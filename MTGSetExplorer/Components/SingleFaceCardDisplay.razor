@@ -1,0 +1,8 @@
+﻿@using MTGSetExplorer.Core.Scryfall.Types
+
+<MudImage Src="@Card.ImageUris?.BorderCrop" ObjectFit="ObjectFit.ScaleDown" Style="width: 100%" ObjectPosition="ObjectPosition.Top"/>
+
+@code {
+    [Parameter, EditorRequired]
+    public required SingleFacedCard Card { get; set; }
+}

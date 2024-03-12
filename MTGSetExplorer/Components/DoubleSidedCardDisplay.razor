@@ -1,0 +1,12 @@
+﻿@using MTGSetExplorer.Core.Scryfall.Types
+
+<MudStack Row AlignItems="AlignItems.Baseline" Justify="Justify.SpaceAround">
+    <MudImage Src="@Card.CardFaces.First().ImageUris?.Normal" ObjectFit="ObjectFit.ScaleDown" Style="width: 47%;"/>
+    <MudImage Src="@Card.CardFaces.Last().ImageUris?.Normal" ObjectFit="ObjectFit.ScaleDown" Style="width: 47%;"/>
+</MudStack>
+
+
+@code {
+    [Parameter, EditorRequired]
+    public required DoubleFacedCard Card { get; set; }
+}

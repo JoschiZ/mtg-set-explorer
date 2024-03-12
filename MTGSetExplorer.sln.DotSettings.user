@@ -1,0 +1,8 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=63902073_002D6a4e_002D4d5f_002D8ab9_002Dd91f6258a1b7/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TestGetCards" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::E265E251-3B69-460F-81A9-91FC7E990017::net8.0::MTGSetExplorer.Tests.ScryfallClientTests.CanFetchLayout&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::E265E251-3B69-460F-81A9-91FC7E990017::net8.0::MTGSetExplorer.Tests.ScryfallClientTests.CanDeserializeCard&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::E265E251-3B69-460F-81A9-91FC7E990017::net8.0::MTGSetExplorer.Tests.ScryfallClientTests.CanLoadSetCards&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

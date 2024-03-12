@@ -1,0 +1,21 @@
+﻿@using MTGSetExplorer.Core.Scryfall.Types
+<MudStack Row AlignItems="AlignItems.Start" Justify="Justify.SpaceEvenly">
+    @foreach (var face in Faces)
+    {
+        <MudStack Style="width: 50%">
+            <MudStack Row Justify="Justify.SpaceBetween" AlignItems="AlignItems.Baseline">
+                <MudText>@face.TypeLine</MudText>
+                <MudText>@face.ManaCost</MudText>
+            </MudStack>
+            <MudDivider DividerType="DividerType.Middle"/>
+            <MudText>@face.OracleText</MudText>
+        </MudStack>
+    }
+</MudStack>
+
+@code {
+    [Parameter, EditorRequired]
+    public required IEnumerable<CardFace> Faces { get; set; }
+    
+    
+}

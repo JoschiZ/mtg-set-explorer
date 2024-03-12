@@ -1,0 +1,19 @@
+﻿@using MTGSetExplorer.Core.Scryfall.Types
+@switch (Card)
+{
+    case NormalCard normalCard:
+        <SingleFaceCardTextDisplay Card="@normalCard"/>
+        break;
+    case SplitCard splitCard:
+        <DoubleFacedCardTextDisplay Faces="@splitCard.CardFaces"/>
+        break;
+    case DoubleFacedCard doubleFacedCard:
+        <DoubleFacedCardTextDisplay Faces="@doubleFacedCard.CardFaces"/>
+        break;
+}
+
+
+@code {
+    [Parameter, EditorRequired]
+    public required ScryfallCardBase Card { get; set; }
+}

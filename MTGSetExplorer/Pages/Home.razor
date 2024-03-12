@@ -1,0 +1,47 @@
+﻿@page "/"
+@using System.Collections.Immutable
+@using MTGSetExplorer.Core.Scryfall
+@using MTGSetExplorer.Core.Scryfall.Types
+@using Color = MudBlazor.Color
+@inject ScryfallClient ScryfallClient
+
+<PageTitle>Home</PageTitle>
+
+
+<MudCarousel ItemsSource="@_cards" ShowBullets="@false" Style="min-height: 600px; height: 70rem; max-width: 40%" AutoCycle="@false" SelectedIndex="0">
+    <ItemTemplate>
+        <MudCard Style="margin: 3rem">
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Align="Align.Center" Typo="Typo.h5" Color="Color.Default">@context.Name</MudText>
+                    <MudDivider DividerType="DividerType.Middle"/>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudStack AlignItems="AlignItems.Center" Justify="Justify.FlexStart">
+                    <BaseCardDisplay CardBase="@context"/>
+                    <BaseCardTextDisplay Card="@context"/>
+                </MudStack>
+            </MudCardContent>
+        </MudCard>
+    </ItemTemplate>
+</MudCarousel>
+
+@code
+{
+    private ImmutableArray<ScryfallCardBase> _cards = [];
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var testSet = await ScryfallClient.GetSet("mom");
+        if (testSet is null)
+        {
+            return;
+        }
+
+        _cards = await ScryfallClient.GetCardsFromSetAsync(testSet);
+    }
+}
+
+
+

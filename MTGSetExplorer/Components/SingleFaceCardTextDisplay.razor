@@ -1,0 +1,16 @@
+﻿@using MTGSetExplorer.Core.Scryfall.Types
+
+<MudStack>
+    <MudStack Row Justify="Justify.SpaceBetween" AlignItems="AlignItems.Baseline">
+        <MudText>@Card.TypeLine</MudText>
+        <MudText>@Card.ManaCost</MudText>
+    </MudStack>
+    <MudDivider DividerType="DividerType.Middle"/>
+    <MudText>@Card.OracleText</MudText>
+</MudStack>
+
+
+@code {
+    [Parameter, EditorRequired]
+    public required NormalCard Card { get; set; }
+}
