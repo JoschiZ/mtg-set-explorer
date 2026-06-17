@@ -176,30 +176,34 @@ internal sealed class ExplorationService
     public async Task<OneOf<Success, NotFound>> AddSeenCardAsync(UserId userId, AddSeenCardToExplorationRequest request,
         CancellationToken cancellationToken)
     {
-        var exploration = await _db.Users
+        var alreadySeen = await _db.Users
             .Where(u => u.Id == userId)
             .SelectMany(u => u.Explorations)
-            .Include(e => e.SeenCards)
-            .FirstOrDefaultAsync(e => e.Id == request.ExplorationId, cancellationToken);
+            .Where(x => x.Id == request.ExplorationId)
+            .SelectMany(x => x.SeenCards)
+            .AnyAsync(x => x.Id == request.CardId, cancellationToken);
+        
+        if (alreadySeen)
+        {
+            return new Success();
+        }
+        
+        var exploration = await _db
+            .Users
+            .SelectMany(x => x.Explorations)
+            .Where(x => x.Id == request.ExplorationId)
+            .FirstOrDefaultAsync(cancellationToken);
 
-        if (exploration == null)
+        if (exploration is null)
         {
             return new NotFound();
         }
-
-        if (exploration.SeenCards.All(c => c.Id != request.CardId))
-        {
-            var card = await _db.Set<Card>().FindAsync([request.CardId], cancellationToken);
-            if (card == null)
-            {
-                card = new Card { Id = request.CardId };
-                _db.Set<Card>().Add(card);
-            }
-
-            exploration.SeenCards.Add(card);
-            await _db.SaveChangesAsync(cancellationToken);
-        }
-
+        
+        var card = await _db.Cards.FirstOrDefaultAsync(x => x.Id == request.CardId, cancellationToken) 
+                   ?? new Card { Id = request.CardId };
+        
+        exploration.SeenCards.Add(card);
+        await _db.SaveChangesAsync(cancellationToken);
         return new Success();
     }
 
@@ -209,19 +213,14 @@ internal sealed class ExplorationService
         var exploration = await _db.Users
             .Where(u => u.Id == userId)
             .SelectMany(u => u.Explorations)
-            .Include(e => e.SeenCards)
-            .FirstOrDefaultAsync(e => e.Id == request.ExplorationId, cancellationToken);
+            .Where(x => x.Id == request.ExplorationId)
+            .SelectMany(x => x.SeenCards)
+            .Where(x => x.Id == request.CardId)
+            .ExecuteDeleteAsync(cancellationToken);
 
-        if (exploration == null)
+        if (exploration == 0)
         {
             return new NotFound();
-        }
-
-        var card = exploration.SeenCards.FirstOrDefault(c => c.Id == request.CardId);
-        if (card != null)
-        {
-            exploration.SeenCards.Remove(card);
-            await _db.SaveChangesAsync(cancellationToken);
         }
 
         return new Success();
