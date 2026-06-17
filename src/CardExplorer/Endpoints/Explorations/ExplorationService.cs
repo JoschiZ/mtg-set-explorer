@@ -44,17 +44,16 @@ internal sealed class ExplorationService
         var exploration = await _db.Users
             .Where(u => u.Id == userId)
             .SelectMany(u => u.Explorations)
-            .Include(e => e.SeenCards)
-            .Include(e => e.CardCollections)
-            .ThenInclude(c => c.Cards)
-            .FirstOrDefaultAsync(e => e.Id == explorationId, cancellationToken);
+            .Where(x => x.Id == explorationId)
+            .ProjectToDto()
+            .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
         if (exploration == null)
         {
             return new NotFound();
         }
 
-        return exploration.MapToDto();
+        return exploration;
     }
 
     public async Task<OneOf<Success, NotFound>> DeleteAsync(UserId userId, ExplorationId explorationId,
